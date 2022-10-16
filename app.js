@@ -2,18 +2,26 @@ const express = require("express");
 const app = express();
 require("express-async-errors")
 const db = require("./models");
-//const ErrorHandler = require("./middleware/errorHandler")
-const BookRouter = require("./routes/bookRoute")
+const fileUpload = require("express-fileupload")
+const notFoundMiddleWare = require("./middleware/notFound")
+const errorHandlerMiddleware = require("./middleware/errorHandler")
+const BookRouter = require("./routes/bookRoute");
 
 
 
 // parse requests of content-type - application/json
 app.use(express.json());
- 
-//app.use(ErrorHandler);
+app.use(fileUpload({ useTempFiles: false }));
+
 
 //routes
 app.use('/api/v1/books',BookRouter)
+
+//middleware
+app.use(notFoundMiddleWare)
+app.use(errorHandlerMiddleware);
+
+
 
 db.sequelize.sync().then(() => {
      console.log("synced db");
