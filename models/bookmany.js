@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+const sequelizePaginate = require('sequelize-paginate')
 module.exports = (sequelize, DataTypes) => {
   class bookmany extends Model {
     /**
@@ -23,5 +24,6 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'bookmany',
   });
+  sequelizePaginate.paginate(bookmany)
   return bookmany;
 };

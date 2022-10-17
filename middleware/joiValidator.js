@@ -1,12 +1,12 @@
-const { CustomAPIError } = require("../errors/custom-errors");
+const  CustomAPIError  = require("../errors/custom-error");
 const joi = require("joi");
 
 const  bookmany= (req, res, next) => {
   //create schema object
   const schema = joi.object({
     name: joi.string().required().min(2).max(25),
-    Imageurl: joi.string(),
-    Author: joi.string().required().min(4).max(25),
+    imageurl: joi.string(),
+    author: joi.string().required().min(4).max(25),
     pages: joi.number().min(50),
     price: joi.number().required().min(200),
   });
@@ -23,4 +23,4 @@ const  bookmany= (req, res, next) => {
     next();
   }
 };
-module.exports = bookSchema;
+module.exports = bookmany;

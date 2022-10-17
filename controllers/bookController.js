@@ -8,8 +8,15 @@ const Book = db.bookmany;
 
  // Retrieve all Tutorials from the database.
 exports.getAllBooks = async(req, res) => {
-    const book = await Book.findAll({})
-     res.status(StatusCodes.CREATED).json({ book })
+    //const book = await Book.findAll({})
+    const options = {
+      page: req.query.page || 1, // Default 1
+      paginate:4,
+      order: [['name', 'ASC']],
+    }
+    const { docs, pages, total } = await Book.paginate(options)
+        res.status(StatusCodes.CREATED).json({books:docs,page:pages,count:total});
+     //res.status(StatusCodes.CREATED).json({ book })
   };
 // Create and Save a new book
 exports.createBook = async(req, res) => {
