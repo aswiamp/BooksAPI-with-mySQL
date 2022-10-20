@@ -12,9 +12,23 @@ module.exports = {
       quantity: {
         type: Sequelize.INTEGER
       },
-      price: {
+      totalprice: {
         type: Sequelize.INTEGER
       },
+      userId:{
+        type: Sequelize.INTEGER,
+          references: {
+            model: "users",
+            key: "id"
+            }
+          },
+          bookId:{
+            type:Sequelize.INTEGER,
+            references:{
+                model: "bookmanies",
+                key: "id"
+            }
+            },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

@@ -8,6 +8,7 @@ const notFoundMiddleWare = require("./middleware/notFound")
 const errorHandlerMiddleware = require("./middleware/errorHandler")
 const AuthenticationMiddleware = require("./middleware/authentication")
 const BookRouter = require("./routes/bookRoute");
+const purchaseRouter = require("./routes/purchaseRoute")
 
 
 // parse requests of content-type - application/json
@@ -18,6 +19,7 @@ app.use(fileUpload({ useTempFiles: false }));
 //routes
 app.use('/api/v1/',authRouter)
 app.use('/api/v1/books',AuthenticationMiddleware,BookRouter)
+app.use('/api/v1/purchase',AuthenticationMiddleware,purchaseRouter)
 
 //middleware
 app.use(notFoundMiddleWare)
