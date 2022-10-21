@@ -4,12 +4,14 @@ const Purchase = db.purchase
 const Book=db.bookmany
 const { StatusCodes } = require('http-status-codes')
 const CustomAPIError=require('../errors/custom-error')
-const user = require("../models/user")
+const User = db.user
 
-const checkAvailability = async(req, res) => {
+const checkAvailability = async(req, res) => 
+{
      
     const data = await Book.findByPk(req.params.id)
-    if(!data){
+    if(!data)
+    {
         throw new CustomAPIError("No book with id")
     }
     if(data.quantity === 0) {
@@ -19,11 +21,12 @@ const checkAvailability = async(req, res) => {
 }
 
 const purchaseBook=async(req,res)=>{
+
+    //start a transaction from  connection and save it into a variable
     const t = await sequelize.transaction();
 
     try
     {
-    //start a transaction from  connection and save it into a variable
     
     const data = await Book.findByPk(req.params.id)
     if(!data){
@@ -36,20 +39,18 @@ const purchaseBook=async(req,res)=>{
     const price = data.price;
     const purchaseItem = {quantity : req.body.quantity,bookId: req.params.id,userId:req.body.userId,totalPrice: req.body.quantity * price };
     const purchaseDetails = await Purchase.create(purchaseItem,{t})
-    const bookQty = data.quantity;
-    const itemQty = purchaseDetails.quantity;
-    if(bookQty-itemQty < 0) 
+    const bookQuantity = data.quantity;
+    const itemQuantity= purchaseDetails.quantity;
+    if(bookQuantity-itemQuantity < 0) 
     {
         throw new CustomAPIError(' books unavailable')
     }
-    //const new_quantity=bookQty-itemQty
-
     Book.findOne({
         where : {
             id:req.params.id
         }
     }).then(book => {
-        book.decrement('quantity',{by:itemQty});
+        book.decrement('quantity',{by:itemQuantity});
     
     },{t});
     res.status(StatusCodes.CREATED).json({purchaseDetails})
@@ -62,16 +63,14 @@ const purchaseBook=async(req,res)=>{
     }
 }
     //get purchase details
-    // const purchaseReport = async(req,res)=>
-    // {
-       
-    // }
-    // //purchase report
-    // const report = await getPurchaseReport()
-    // {
-
-    //}
-
- 
+const purchaseReport = async(req,res)=>
+    {
+        User.hasMany(Purchase);
+        Purchase.belongsTo(User);  
+        const users = await Purchase.findAll({ include:[{model: User,attributes:['name','email']}]});
+        res.status(StatusCodes.CREATED).json({purchasedetails:users})
+    }
     
-module.exports={checkAvailability,purchaseBook}
+
+
+module.exports={checkAvailability,purchaseBook,purchaseReport}

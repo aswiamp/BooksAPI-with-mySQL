@@ -4,7 +4,7 @@ const CustomAPIError = require("../errors/custom-error")
 const BadRequestError = require("../errors/badRequest")
 const path = require("path");
 const short = require("shortid");
-const Book = db.bookmanies;
+const Book = db.bookmany;
 
  // Retrieve all Tutorials from the database.
 exports.getAllBooks = async(req, res) => {
