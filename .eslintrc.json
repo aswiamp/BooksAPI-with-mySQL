@@ -5,16 +5,16 @@
         "es2021": true,
         "node": true
     },
-    "extends": "eslint:recommended",
-    "overrides": [
-    ],
+    "extends": ["eslint:recommended", "prettier"],
+    "overrides": [],
     "parserOptions": {
         "ecmaVersion": "latest"
     },
     "rules": {
-     "semi": ["error", "always"],
-     "no-console": "off",
-     "no-unused-vars": "error"
-
+        "semi": ["error", "always"],
+        "no-console": "off",
+        "no-unused-vars": "error",
+        "no-irregular-whitespace": "error",
+        "no-empty": "error"
     }
 }

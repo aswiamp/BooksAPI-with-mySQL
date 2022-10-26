@@ -1,4 +1,19 @@
+// const { StatusCodes } = require("http-status-codes");
+// const errorHandlerMiddleware = (err, req, res,next) => {
+//   let customError = {
+//     // set default
+//     statusCode: err.statusCode || StatusCodes.INTERNAL_SERVER_ERROR,
+//     msg: err.message || "Something went wrong try again later",
+//   };
+
+//   // if (err instanceof CustomAPIError) {
+//   //   return res.status(err.statusCode).json({ msg: err.message })
+//   // }
+
+//   if (err.name === "ValidationError") {
+//     customError.msg = Object.values(err.errors)
 const { StatusCodes } = require("http-status-codes");
+// eslint-disable-next-line no-unused-vars
 const errorHandlerMiddleware = (err, req, res,next) => {
   let customError = {
     // set default
